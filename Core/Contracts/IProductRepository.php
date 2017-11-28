@@ -1,9 +1,9 @@
 <?php
 
-    namespace YewTree\Contracts;
+    namespace YewTree\Core\Contracts;
 
 
-    interface ProductRepositoryInterface
+    interface IProductRepository
     {
         public function getProductById($id);
         public function getAllProducts();
@@ -13,5 +13,4 @@
         public function addProduct();
 
         public function disableProduct($id);
-
     }

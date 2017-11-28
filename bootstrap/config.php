@@ -4,6 +4,6 @@
 
     // Database
     define('DBHOST', 'localhost');
-    define('DBUSER', 'root');
-    define('DBPASS', '');
-    define('DBNAME', 'YewTree');
+    define('DBUSER', 'php_user01');
+    define('DBPASS', 'password');
+    define('DBNAME', 'php_db01');

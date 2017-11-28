@@ -9,33 +9,20 @@
         public $name;
         public $price;
         public $postedDate;
-        public $photos;
+        public $thumbnail;
 
-        /**
-         * @var \stdClass
-         */
-        public $user;
+        public $productImages;
 
-        /**
-         * Product constructor.
-         * @param      $id
-         * @param      $name
-         * @param      $price
-         * @param User $user
-         */
-        public function  __construct($id, $name, $price, User $user)
+        public function __construct($id, $name, $price, $postedDate, $thumbnail, $productImages)
         {
             $this->id = $id;
             $this->name = $name;
             $this->price = $price;
+            $this->postedDate = $postedDate;
+            $this->thumbnail = $thumbnail;
 
-            $this->photos = array();
-            $this->photos = $this->getPhotos($this->id);
-        }
-
-        private function getPhotos($id)
-        {
-            // return array
+            $this->productImages = array();
+            $this->productImages = $productImages;
         }
 
 

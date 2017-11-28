@@ -2,12 +2,14 @@
 
     namespace YewTree\Infrastructure\ProductRepository\MyPdoProductRepository;
 
-    use YewTree\Contracts\ProductRepositoryInterface;
+    use YewTree\Core\Contracts\IProductRepository;
 
-    class MyPdoProductRepository implements ProductRepositoryInterface
+    class MyPdoProductRepository implements IProductRepository
     {
-        public function __construct()
+        private $link;
+        public function __construct(MyPDO $link)
         {
+            $this->link = $link;
         }
 
         public function getAllProducts()

@@ -1,5 +1,11 @@
 <?php
-    function dumpr($data, $label='', $return = false, $showFileAndLine = true) {
+
+    ini_set('display_errors', 1);
+    ini_set('display_startup_errors', 1);
+    error_reporting(E_ALL);
+
+    function dumpr($data, $label='', $return = false, $showFileAndLine = true)
+    {
 
         $debug           = debug_backtrace();
         $callingFile     = $debug[0]['file'];

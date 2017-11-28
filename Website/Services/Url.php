@@ -1,5 +1,5 @@
 <?php
-    namespace YewTree\Core\Helpers;
+    namespace YewTree\Website\Services;
 
     class Url
     {
@@ -38,7 +38,7 @@
                 /*
                  * Removing Learn, PHPCourse, php, url from the domain
                  */
-                for ($i = 0; $i <= 3; $i++) {
+                for ($i = 0; $i <= 2; $i++) {
                     array_shift($d); // remove fixed element
                 }
 

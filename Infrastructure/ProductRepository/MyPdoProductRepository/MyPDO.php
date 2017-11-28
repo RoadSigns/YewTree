@@ -1,12 +1,7 @@
 <?php
-    /**
-     * Created by PhpStorm.
-     * User: Zack
-     * Date: 18/11/2017
-     * Time: 21:05
-     */
 
     namespace YewTree\Infrastructure\ProductRepository\MyPdoProductRepository;
+    use PDO;
 
     /**
      * MyPDO Class
@@ -40,7 +35,7 @@
                 // if there is already an established connection to the database.
                 PDO::ATTR_PERSISTENT => true,
                 // Using ERRMODE_EXCEPTION will throw an exception if an error occurs.
-                PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+                PDO::ATTR_ERRMODE => \PDO::ERRMODE_EXCEPTION
             );
 
             try {
@@ -48,7 +43,7 @@
                 $this->dbh = new PDO($dsn, $this->user, $this->pass, $options);
                 $this->error = false;
 
-            } catch (PDOException $e) {
+            } catch (\PDOException $e) {
 
                 $this->dbh = NULL;
                 $this->error = $e->getMessage();
@@ -79,16 +74,16 @@
             if (is_null($type)) {
                 switch (true) {
                     case is_int($value):
-                        $type = PDO::PARAM_INT;
+                        $type = \PDO::PARAM_INT;
                         break;
                     case is_bool($value):
-                        $type = PDO::PARAM_BOOL;
+                        $type = \PDO::PARAM_BOOL;
                         break;
                     case is_null($value):
-                        $type = PDO::PARAM_NULL;
+                        $type = \PDO::PARAM_NULL;
                         break;
                     default:
-                        $type = PDO::PARAM_STR;
+                        $type = \PDO::PARAM_STR;
                 }
             }
             $this->stmt->bindValue($param, $value, $type);
@@ -105,7 +100,7 @@
             try {
                 $this->stmt->execute();
             }
-            catch (PDOException $e) {
+            catch (\PDOException $e) {
                 $this->error = $e->getMessage();
             }
             return $this->stmt->errorCode() === '00000';
@@ -121,9 +116,9 @@
         {
             $this->execute();
             if($type == 'Array'){
-                return $this->stmt->fetchAll(PDO::FETCH_ASSOC);
+                return $this->stmt->fetchAll(\PDO::FETCH_ASSOC);
             } else {
-                return $this->stmt->fetchAll(PDO::FETCH_OBJ);
+                return $this->stmt->fetchAll(\PDO::FETCH_OBJ);
             }
         }
 
@@ -137,7 +132,7 @@
         {
             $this->execute();
             if($type == 'Array'){
-                return $this->stmt->fetch(PDO::FETCH_ASSOC);
+                return $this->stmt->fetch(\PDO::FETCH_ASSOC);
             } else {
                 return $this->stmt->fetchObject();
             }
@@ -151,7 +146,7 @@
         public function fetchOne()
         {
             $this->execute();
-            $row = $this->stmt->fetch(PDO::FETCH_ASSOC);
+            $row = $this->stmt->fetch(\PDO::FETCH_ASSOC);
             return array_values($row)[0];
         }
 

@@ -1,6 +1,6 @@
 <?php
 
-    namespace YewTree\Core\Helpers;
+    namespace YewTree\Website\Services;
 
     class FormValidator
     {
