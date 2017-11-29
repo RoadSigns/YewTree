@@ -2,6 +2,8 @@
     // Project Name
     define('PROJECTNAME', 'YewTree');
 
+    define('BASEPATH', '/yewtree');
+
     // Database
     define('DBHOST', 'localhost');
     define('DBUSER', 'php_user01');

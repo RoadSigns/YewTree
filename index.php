@@ -10,50 +10,37 @@
     // Calling in Classes required
     use YewTree\Infrastructure\ProductRepository\MyPdoProductRepository\MyPDO;
     use YewTree\Infrastructure\ProductRepository\MyPdoProductRepository\MyPdoProductRepository;
+    use YewTree\Website\Website;
 
-    // Helpers
-    use YewTree\Website\Services\Url;
-    use YewTree\Website\Services\FormValidator;
+    // Router
+    use YewTree\Website\Services\Router\Url;
+    use YewTree\Website\Services\Router\RouterEngine;
+    use YewTree\Website\Services\Router\Router;
 
-    // Database connection
-    $myPdoConnection    = new MyPDO();
-    $databaseConnection = new MyPdoProductRepository($myPdoConnection);
+    // Repository connection
+    $myPdoConnection = new MyPDO();
+    $repository      = new MyPdoProductRepository($myPdoConnection);
 
-    // Url Parser
-    $urlParser = new Url();
+    // Router
+    $urlParser    = new Url();
+    $routerEngine = new RouterEngine();
+    $router       = new Router($routerEngine);
 
-    // Form Validation
-    $formValidator = new FormValidator();
+    // Create a Website Class
+    $website = new Website($repository, $router);
 
+    // Display the Page
+    $website->display();
 
-    if (count($urlParser->urlArray) > 0) {
-        if ($urlParser->getFirstElement() == 'product') {
-            if (count($urlParser->urlArray) >= 1) {
-                echo "Product: " . $urlParser->urlArray[1];
-            } else {
-                echo "List Products";
-            }
+    echo "<hr/>";
 
-        } elseif ($urlParser->getFirstElement() == 'category') {
-            if (count($urlParser->urlArray) >= 1) {
-                echo "Category: " . $urlParser->urlArray[1];
-            } else {
-                echo "List Categories";
-            }
-        } else {
-            header('Location :' . $_SERVER['DOCUMENT_ROOT']);
-        }
-    } else {
-        echo "Homepage";
+    $variables = array(
+      $_SERVER,
+      $router,
+      $website,
+      $repository
+    );
+
+    foreach ($variables as $variable) {
+        dumpr($variable);
     }
-
-
-
-
-
-
-
-
-    dumpr($databaseConnection);
-    dumpr($urlParser);
-    dumpr($urlParser->urlArray);

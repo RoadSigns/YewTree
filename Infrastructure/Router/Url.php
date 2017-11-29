@@ -1,19 +1,18 @@
 <?php
-    namespace YewTree\Website\Services;
+    namespace YewTree\Website\Services\Router;
 
     class Url
     {
         public $urlArray,
-            $urlDomain,
-            $urlRootPath,
-            $urlFullPath,
-            $scriptName,
-            $docRoot;
-
+               $urlDomain,
+               $urlRootPath,
+               $urlFullPath,
+               $scriptName,
+               $docRoot;
 
         public function __construct()
         {
-            $this->urlRootPath  = '/webstudent/sem6zl/yewtree/';
+            $this->urlRootPath  = '/yewtree';
             $this->urlFullPath  = $_SERVER['REQUEST_URI'];
             $this->scriptName   = $_SERVER['SCRIPT_NAME'];
             $this->docRoot      = $_SERVER['DOCUMENT_ROOT'];
