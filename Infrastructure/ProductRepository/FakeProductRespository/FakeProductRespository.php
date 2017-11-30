@@ -27,6 +27,10 @@
             return $this->productList[$id];
         }
 
+        public function getProductByName($name)
+        {
+            // TODO: Implement getProductByName() method.
+        }
 
         public function getProductsByCategory($category)
         {
@@ -41,6 +45,11 @@
         public function addProduct()
         {
             // TODO: Implement addProduct() method.
+        }
+
+        public function updateProduct()
+        {
+            // TODO: Implement updateProduct() method.
         }
 
         public function disableProduct($id)

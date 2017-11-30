@@ -3,6 +3,7 @@
     namespace YewTree\Infrastructure\ProductRepository\MyPdoProductRepository;
 
         use YewTree\Core\Contracts\IProductRepository;
+        use YewTree\Website\Helpers\Urlify;
 
         class MyPdoProductRepository implements IProductRepository
         {
@@ -26,7 +27,7 @@
 
             public function getProductByName($uriName)
             {
-                $sql = " SELECT * FROM  products WHERE uriName = :uriName";
+                $sql = " SELECT * FROM products WHERE uriName = :uriName";
                 return $this->link->query($sql)->bind(':uriName', $uriName)->fetchRow();
             }
 
@@ -36,22 +37,30 @@
                 // TODO: Implement getProductsByCategory() method.
             }
 
-            public function getProductUser()
-            {
-                // TODO: Implement getProductUser() method.
-            }
-
             public function addProduct()
             {
                 $table = "products";
+
+                $name       = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
+                $price      = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                $postedDate = date("Y-m-d H:i:s");
+                $uriName    = Urlify::urlify($name);
+                $thumbnail  = $name . '.jpg';
+
                 $columns = array (
                     "id"         => "",
-                    "name"       => "Test",
-                    "price"      => "4.50",
-                    "postedDate" => "2017-11-30 00:00:00",
-                    "thumbnail"  => "test.gif"
+                    "name"       => $name,
+                    "price"      => $price,
+                    "postedDate" => $postedDate,
+                    "thumbnail"  => $thumbnail,
+                    "uriName"    => $uriName
                 );
                 return $this->link->insert($table, $columns);
+            }
+
+            public function updateProduct()
+            {
+
             }
 
             public function disableProduct($id)
