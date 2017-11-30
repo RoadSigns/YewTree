@@ -16,7 +16,11 @@ class ProductController
         ($id == '')
          ? $products = $this->productRepository->getAllProducts()
          : $products = $this->productRepository->getProductById($id);
+    }
 
-        dumpr($products);
+    public function showList()
+    {
+        $products = $this->productRepository->getAllProducts();
+        require_once('Website/Views/Products/list.php');
     }
 }

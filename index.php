@@ -13,16 +13,14 @@
     use YewTree\Website\Website;
 
     // Router
-    use YewTree\Website\Services\Router\Url;
-    use YewTree\Website\Services\Router\RouterEngine;
-    use YewTree\Website\Services\Router\Router;
+    use YewTree\Infrastructure\Router\RouterEngine;
+    use YewTree\Infrastructure\Router\Router;
 
     // Repository connection
     $myPdoConnection = new MyPDO();
     $repository      = new MyPdoProductRepository($myPdoConnection);
 
     // Router
-    $urlParser    = new Url();
     $routerEngine = new RouterEngine();
     $router       = new Router($routerEngine);
 
@@ -35,10 +33,10 @@
     echo "<hr/>";
 
     $variables = array(
-      $_SERVER,
-      $router,
-      $website,
-      $repository
+        $_SERVER,
+        $router,
+        $website,
+        $repository
     );
 
     foreach ($variables as $variable) {

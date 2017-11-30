@@ -2,7 +2,7 @@
     // Project Name
     define('PROJECTNAME', 'YewTree');
 
-    define('BASEPATH', '/yewtree');
+    define('BASEPATH', '/webstudent/sem6zl/yewtree');
 
     // Database
     define('DBHOST', 'localhost');
