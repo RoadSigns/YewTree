@@ -2,6 +2,7 @@
     // Project Name
     define('PROJECTNAME', 'YewTree');
 
+    // Base Path
     define('BASEPATH', '/webstudent/sem6zl/yewtree');
 
     // Database

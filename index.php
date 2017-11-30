@@ -1,4 +1,5 @@
 <?php
+    session_start();
 
     // Required for Start up
     require ('bootstrap/config.php'    );
@@ -6,6 +7,9 @@
 
     // Debugging Tools
     require ('bootstrap/debug.php');
+
+    // Global Styles
+    require ('bootstrap/style.php');
 
     // Calling in Classes required
     use YewTree\Infrastructure\ProductRepository\MyPdoProductRepository\MyPDO;
@@ -29,16 +33,3 @@
 
     // Display the Page
     $website->display();
-
-    echo "<hr/>";
-
-    $variables = array(
-        $_SERVER,
-        $router,
-        $website,
-        $repository
-    );
-
-    foreach ($variables as $variable) {
-        dumpr($variable);
-    }

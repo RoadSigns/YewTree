@@ -29,17 +29,26 @@
 
         public function postCreate()
         {
-            $this->productRepository->addProduct();
+            $result = $this->productRepository->addProduct();
+            dumpr($result);
+            ($result)
+                ? header('Location: '. BASEPATH . '/admin/')
+                : header('Location: '. BASEPATH . '/admin/create/');
+            exit();
         }
 
         public function getEdit($uriName)
         {
             $product = $this->productRepository->getProductByName($uriName);
-            require_once('Website/Views/Administration/edit.php');
+            ($product)
+                ? require_once('Website/Views/Administration/edit.php')
+                : header('Location: ' . BASEPATH . '/admin/');
+
         }
 
         public function postEdit($id)
         {
+            $this->productRepository->updateProduct();
 
         }
 

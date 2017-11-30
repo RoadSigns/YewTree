@@ -4,11 +4,6 @@
 
     class RouterEngine
     {
-//        public function __construct($urlParser)
-//        {
-//            $this->urlParser = $urlParser;
-//        }
-
         /**
          * @var array Array of all routes (incl. named routes).
          */

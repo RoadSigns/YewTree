@@ -53,7 +53,7 @@
                     $tmp->postCreate();
                 });
 
-                $this->router->map('GET', '/admin/edit/[a:uriName]/', function($uriName){
+                $this->router->map('GET', '/admin/edit/[:uriName]/', function($uriName){
                     $tmpPdo = new MyPDO();
                     $tmp    = new AdministrationController(new MyPdoProductRepository($tmpPdo));
                     $tmp->getEdit($uriName);
@@ -107,7 +107,7 @@
                     call_user_func_array( $match['target'], $match['params'] );
                 } else {
                     // no route was matched
-                    header('Location: /yewtree');
+                    header('Location: '. BASEPATH .'/');
                     exit();
                 }
             }
