@@ -4,6 +4,7 @@
 
     use YewTree\Core\Contracts\ICategoryRepository;
     use YewTree\Infrastructure\Services\MyPDO;
+    use YewTree\Website\Helpers\Urlify;
 
     class MyPdoCategoryRepository implements ICategoryRepository
     {
@@ -33,7 +34,19 @@
 
         public function addCategory()
         {
-            // TODO: Implement addCategory() method.
+            $table = "categories";
+
+            $category    = filter_input(INPUT_POST, 'category',  FILTER_SANITIZE_STRING);
+            $lastUpdated = date("Y-m-d H:i:s");
+            $uriName     = Urlify::urlify($category);
+
+            $columns = array (
+                "id"          => "",
+                "category"    => $category,
+                "lastUpdated" => $lastUpdated,
+                "uriName"     => $uriName
+            );
+            return $this->link->insert($table, $columns);
         }
 
         public function updateCategory($id)

@@ -11,6 +11,7 @@
             $string = str_replace('_', '', $string);
             $string = preg_replace("/\s+/", "-", $string);
             $string = preg_replace("/-+/", "-", $string);
+            $string = strtolower($string);
             return $string;
         }
     }

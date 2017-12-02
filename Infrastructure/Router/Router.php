@@ -2,6 +2,8 @@
 
     namespace YewTree\Infrastructure\Router;
 
+        use YewTree\Core\Contracts\ICategoryRepository;
+        use YewTree\Core\Contracts\IProductRepository;
         use YewTree\Core\Contracts\IRouter;
 
         use YewTree\Infrastructure\Services\MyPDO;
@@ -21,10 +23,21 @@
         {
             public $router;
 
+            private $myPdo;
+
+            private $productController;
+            private $categoryController;
+
+            private $administrationController;
+            private $administrationCategoryController;
+            private $administrationProductController;
+
             public function __construct(RouterEngine $router)
             {
                 $this->router = $router;
                 $this->router->setBasePath(BASEPATH);
+
+                $this->_generateControllers();
 
                 $this->generateRoutes();
             }
@@ -37,13 +50,7 @@
                 });
 
                 $this->router->map('GET', '/admin/', function(){
-                    $myPdo = new MyPDO();
-
-                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
-                    $IProductRepository  = new MyPdoProductRepository($myPdo);
-
-                    $controller = new AdministrationController($IProductRepository, $ICategoryRepository);
-                    $controller->showView();
+                    $this->administrationController->showView();
                 });
 
 
@@ -163,24 +170,41 @@
             private function _generateAdministrationCategoryRoutes()
             {
                 $this->router->map('GET', '/admin/category/edit/[i:id]/', function ($id) {
-                    $myPdo = new MyPDO();
-
-                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
-                    $IProductRepository  = new MyPdoProductRepository($myPdo);
-
-                    $controller = new AdministrationCategoryController($IProductRepository, $ICategoryRepository);
-                    $controller->getEdit($id);
+                   $this->administrationCategoryController->getEdit($id);
                 });
 
                 $this->router->map('POST', '/admin/category/edit/[i:id]/', function ($id) {
-                    $myPdo = new MyPDO();
-
-                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
-                    $IProductRepository = new MyPdoProductRepository($myPdo);
-
-                    $controller = new AdministrationCategoryController($IProductRepository, $ICategoryRepository);
-                    $controller->postEdit($id);
+                    $this->administrationCategoryController->postEdit($id);
                 });
+
+                $this->router->map('GET', '/admin/category/create/', function () {
+                    $this->administrationCategoryController->getCreate();
+                });
+
+                $this->router->map('POST', '/admin/category/create/', function () {
+                    $this->administrationCategoryController->postCreate();
+                });
+
+
+            }
+
+            private function _generateControllers()
+            {
+                // Building Services
+                $myPdo = new MyPDO();
+
+                // Building Repositories
+                $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                $IProductRepository  = new MyPdoProductRepository($myPdo);
+
+                // Building the Controllers
+                $this->homeController    = new HomeController($IProductRepository);
+                $this->productController = new ProductController($IProductRepository);
+
+                // Building Administration Controllers
+                $this->administrationController          = new AdministrationController($IProductRepository, $ICategoryRepository);
+                $this->administrationProductController   = new AdministrationProductController($IProductRepository, $ICategoryRepository);
+                $this->administrationCategoryController  = new AdministrationCategoryController($IProductRepository, $ICategoryRepository);
             }
 
         }
