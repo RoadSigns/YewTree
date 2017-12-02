@@ -65,14 +65,14 @@
                     $tmp->postEdit($id);
                 });
 
-                $this->router->map('GET', '/admin/disable/[i:id]/', function($id){
+                $this->router->map('GET', '/admin/enable/[i:id]/', function($id){
                     $tmp    = new AdministrationController(new MyPdoProductRepository(new MyPDO()));
-                    $tmp->getDisable();
+                    $tmp->getEnable($id);
                 });
 
-                $this->router->map('POST', '/admin/disable/[i:id]/', function($id){
+                $this->router->map('GET', '/admin/disable/[i:id]/', function($id){
                     $tmp    = new AdministrationController(new MyPdoProductRepository(new MyPDO()));
-                    $tmp->postDisable();
+                    $tmp->getDisable($id);
                 });
 
                 $this->router->map('GET', '/product/[i:id]/', function($id){
