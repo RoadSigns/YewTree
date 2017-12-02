@@ -57,5 +57,10 @@
             // TODO: Implement disableProduct() method.
         }
 
+        public function enableProduct($id)
+        {
+            // TODO: Implement enableProduct() method.
+        }
+
 
     }

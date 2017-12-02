@@ -107,7 +107,7 @@
                 $table = "products";
 
                 $columns = array (
-                    "disable" => 1
+                    "disabled" => 1
                 );
 
                 $where = "id = '$id'";
@@ -120,7 +120,7 @@
                 $table = "products";
 
                 $columns = array (
-                    "disable" => 0
+                    "disabled" => 0
                 );
 
                 $where = "id = '$id'";

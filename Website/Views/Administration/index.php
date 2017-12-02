@@ -39,8 +39,8 @@
                                             <td><a href='<?= BASEPATH ?>/admin/edit/<?= $product->uriName ?>/'><button class="btn btn-warning">Edit</button></a></td>
                                             <?php
                                                 echo ($product->disabled)
-                                                    ? "<td><a href='". BASEPATH ."/admin/enable/{$product->uriName}/'><button class='btn btn-success'>Enable</button></a></td>"
-                                                    : "<td><a href='". BASEPATH ."/admin/disable/{$product->uriName}/'><button class='btn btn-danger'>Disable</button></a></td>";
+                                                    ? "<td><a href='". BASEPATH ."/admin/enable/{$product->id}/'><button class='btn btn-success'>Enable</button></a></td>"
+                                                    : "<td><a href='". BASEPATH ."/admin/disable/{$product->id}/'><button class='btn btn-danger'>Disable</button></a></td>";
                                             ?>
                                         </tr>
                                     <?php }
