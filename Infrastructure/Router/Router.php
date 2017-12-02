@@ -3,12 +3,19 @@
     namespace YewTree\Infrastructure\Router;
 
         use YewTree\Core\Contracts\IRouter;
+
+        use YewTree\Infrastructure\Services\MyPDO;
+
         use YewTree\Infrastructure\ProductRepository\FakeProductRespository\FakeProductRespository;
-        use YewTree\Infrastructure\ProductRepository\MyPdoProductRepository\MyPDO;
         use YewTree\Infrastructure\ProductRepository\MyPdoProductRepository\MyPdoProductRepository;
+        use YewTree\Infrastructure\CategoryRepository\MyPdoCategoryRepository\MyPdoCategoryRepository;
+
         use YewTree\Website\Controllers\AdministrationController;
+        use YewTree\Website\Controllers\AdministrationProductController;
+        use YewTree\Website\Controllers\AdministrationCategoryController;
         use YewTree\Website\Controllers\HomeController;
         use YewTree\Website\Controllers\ProductController;
+        use YewTree\Website\Controllers\CategoryController;
 
         class Router implements IRouter
         {
@@ -17,7 +24,7 @@
             public function __construct(RouterEngine $router)
             {
                 $this->router = $router;
-                $this->router->setBasePath('/webstudent/sem6zl/yewtree');
+                $this->router->setBasePath(BASEPATH);
 
                 $this->generateRoutes();
             }
@@ -29,74 +36,26 @@
                     $tmp->showView();
                 });
 
-                $this->router->map('GET', '/products/', function(){
-                    $tmpPdo = new MyPDO();
-                    $tmp    = new ProductController(new MyPdoProductRepository($tmpPdo));
-                    $tmp->showView();
-                });
-
-                $this->router->map('POST', '/products/', function(){
-                    $tmpPdo = new MyPDO();
-                    $tmp    = new ProductController(new MyPdoProductRepository($tmpPdo));
-                    $tmp->postView();
-                });
-
-                $this->router->map('GET', '/admin/create/', function(){
-                    $tmpPdo = new MyPDO();
-                    $tmp    = new AdministrationController(new MyPdoProductRepository($tmpPdo));
-                    $tmp->getCreate();
-                });
-
-                $this->router->map('POST', '/admin/create/', function(){
-                    $tmpPdo = new MyPDO();
-                    $tmp    = new AdministrationController(new MyPdoProductRepository($tmpPdo));
-                    $tmp->postCreate();
-                });
-
-                $this->router->map('GET', '/admin/edit/[i:id]/', function($uriName){
-                    $tmpPdo = new MyPDO();
-                    $tmp    = new AdministrationController(new MyPdoProductRepository($tmpPdo));
-                    $tmp->getEdit($uriName);
-                });
-
-                $this->router->map('POST', '/admin/edit/[i:id]/', function($id){
-                    $tmpPdo = new MyPDO();
-                    $tmp    = new AdministrationController(new MyPdoProductRepository($tmpPdo));
-                    $tmp->postEdit($id);
-                });
-
-                $this->router->map('GET', '/admin/enable/[i:id]/', function($id){
-                    $tmp    = new AdministrationController(new MyPdoProductRepository(new MyPDO()));
-                    $tmp->getEnable($id);
-                });
-
-                $this->router->map('GET', '/admin/disable/[i:id]/', function($id){
-                    $tmp    = new AdministrationController(new MyPdoProductRepository(new MyPDO()));
-                    $tmp->getDisable($id);
-                });
-
-                $this->router->map('GET', '/product/[i:id]/', function($id){
-                    $tmp = new ProductController(new FakeProductRespository());
-                    $tmp->showView($id);
-                });
-
-                $this->router->map('GET', '/category/', function(){
-                    echo "Hello World";
-                });
-
                 $this->router->map('GET', '/admin/', function(){
-                    $tmp = new AdministrationController(new MyPdoProductRepository(new MyPDO()));
-                    $tmp->showView();
+                    $myPdo = new MyPDO();
+
+                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                    $IProductRepository  = new MyPdoProductRepository($myPdo);
+
+                    $controller = new AdministrationController($IProductRepository, $ICategoryRepository);
+                    $controller->showView();
                 });
 
-                $this->router->map('GET', '/[a:controller]/[a:method]/[i:id]/', function($controller, $method, $id){
-                    echo $controller . " " . $method . " " . $id;
-                    echo "<form method='post' action=''><input value='' name='test' type='text'/><button></button></form>";
-                });
 
-                $this->router->map('POST', '/[a:controller]/[a:method]/[i:id]/', function($controller, $method, $id){
-                    dumpr($_POST);
-                });
+                $this->_generateProductsRoutes();
+
+                $this->_generateCategoryRoutes();
+
+                $this->_generateAdministrationProductRoutes();
+
+                $this->_generateAdministrationCategoryRoutes();
+
+
             }
 
             public function getController()
@@ -110,6 +69,118 @@
                     header('Location: '. BASEPATH .'/');
                     exit();
                 }
+            }
+
+            private function _generateProductsRoutes()
+            {
+                $this->router->map('GET', '/products/', function () {
+                    $tmpPdo = new MyPDO();
+                    $tmp = new ProductController(new MyPdoProductRepository($tmpPdo));
+                    $tmp->showView();
+                });
+
+                $this->router->map('POST', '/products/', function () {
+                    $tmpPdo = new MyPDO();
+                    $tmp = new ProductController(new MyPdoProductRepository($tmpPdo));
+                    $tmp->postView();
+                });
+
+
+                $this->router->map('GET', '/product/[i:id]/', function ($id) {
+                    $tmp = new ProductController(new FakeProductRespository());
+                    $tmp->showView($id);
+                });
+            }
+
+            private function _generateCategoryRoutes()
+            {
+                // TODO Create Routes for Categories
+            }
+
+            private function _generateAdministrationProductRoutes()
+            {
+                $this->router->map('GET', '/admin/product/create/', function () {
+                    $myPdo = new MyPDO();
+
+                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                    $IProductRepository = new MyPdoProductRepository($myPdo);
+
+                    $controller = new AdministrationProductController($IProductRepository, $ICategoryRepository);
+                    $controller->getCreate();
+                });
+
+                $this->router->map('POST', '/admin/product/create/', function () {
+                    $myPdo = new MyPDO();
+
+                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                    $IProductRepository = new MyPdoProductRepository($myPdo);
+
+                    $controller = new AdministrationProductController($IProductRepository, $ICategoryRepository);
+                    $controller->postCreate();
+                });
+
+                $this->router->map('GET', '/admin/product/edit/[i:id]/', function ($uriName) {
+                    $myPdo = new MyPDO();
+
+                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                    $IProductRepository = new MyPdoProductRepository($myPdo);
+
+                    $controller = new AdministrationProductController($IProductRepository, $ICategoryRepository);
+                    $controller->getEdit($uriName);
+                });
+
+                $this->router->map('POST', '/admin/product/edit/[i:id]/', function ($id) {
+                    $myPdo = new MyPDO();
+
+                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                    $IProductRepository = new MyPdoProductRepository($myPdo);
+
+                    $controller = new AdministrationProductController($IProductRepository, $ICategoryRepository);
+                    $controller->postEdit($id);
+                });
+
+                $this->router->map('GET', '/admin/product/enable/[i:id]/', function ($id) {
+                    $myPdo = new MyPDO();
+
+                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                    $IProductRepository = new MyPdoProductRepository($myPdo);
+
+                    $controller = new AdministrationProductController($IProductRepository, $ICategoryRepository);
+                    $controller->getEnable($id);
+                });
+
+                $this->router->map('GET', '/admin/product/disable/[i:id]/', function ($id) {
+                    $myPdo = new MyPDO();
+
+                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                    $IProductRepository = new MyPdoProductRepository($myPdo);
+
+                    $controller = new AdministrationProductController($IProductRepository, $ICategoryRepository);
+                    $controller->getDisable($id);
+                });
+            }
+
+            private function _generateAdministrationCategoryRoutes()
+            {
+                $this->router->map('GET', '/admin/category/edit/[i:id]/', function ($id) {
+                    $myPdo = new MyPDO();
+
+                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                    $IProductRepository  = new MyPdoProductRepository($myPdo);
+
+                    $controller = new AdministrationCategoryController($IProductRepository, $ICategoryRepository);
+                    $controller->getEdit($id);
+                });
+
+                $this->router->map('POST', '/admin/category/edit/[i:id]/', function ($id) {
+                    $myPdo = new MyPDO();
+
+                    $ICategoryRepository = new MyPdoCategoryRepository($myPdo);
+                    $IProductRepository = new MyPdoProductRepository($myPdo);
+
+                    $controller = new AdministrationCategoryController($IProductRepository, $ICategoryRepository);
+                    $controller->postEdit($id);
+                });
             }
 
         }

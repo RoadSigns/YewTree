@@ -5,10 +5,10 @@
     interface ICategoryRepository
     {
         public function getAllCategories();
-        public function getCategoryById();
-        public function getCategoryByName();
+        public function getCategoryById($id);
+        public function getCategoryByName($name);
 
         public function addCategory();
-        public function updateCategory();
-        public function removeCategory();
+        public function updateCategory($id);
+        public function removeCategory($id);
     }

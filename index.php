@@ -11,25 +11,33 @@
     // Global Styles
     require ('bootstrap/style.php');
 
-    // Calling in Classes required
-    use YewTree\Infrastructure\ProductRepository\MyPdoProductRepository\MyPDO;
+    // Services
+    use YewTree\Infrastructure\Services\MyPDO;
+
+    // Repositories
     use YewTree\Infrastructure\ProductRepository\MyPdoProductRepository\MyPdoProductRepository;
-    use YewTree\Website\Website;
+    use YewTree\Infrastructure\CategoryRepository\MyPdoCategoryRepository\MyPdoCategoryRepository;
 
     // Router
     use YewTree\Infrastructure\Router\RouterEngine;
     use YewTree\Infrastructure\Router\Router;
 
-    // Repository connection
+    // Website
+    use YewTree\Website\Website;
+
+    // Calling Services
     $myPdoConnection = new MyPDO();
-    $repository      = new MyPdoProductRepository($myPdoConnection);
+
+    // Repository connection
+    $productRepository = new MyPdoProductRepository($myPdoConnection);
+    $categoryRepository = new MyPdoCategoryRepository($myPdoConnection);
 
     // Router
     $routerEngine = new RouterEngine();
     $router       = new Router($routerEngine);
 
     // Create a Website Class
-    $website = new Website($repository, $router);
+    $website = new Website($productRepository, $categoryRepository, $router);
 
     // Display the Page
     $website->display();
