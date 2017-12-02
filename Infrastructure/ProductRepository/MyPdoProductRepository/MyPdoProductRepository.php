@@ -78,11 +78,10 @@
             /**
              * @return bool
              */
-            public function updateProduct()
+            public function updateProduct($id)
             {
                 $table = "products";
 
-                $id          = filter_input(INPUT_POST, 'id',    FILTER_SANITIZE_NUMBER_INT);
                 $name        = filter_input(INPUT_POST, 'name',  FILTER_SANITIZE_STRING);
                 $price       = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
                 $lastUpdated = date("Y-m-d H:i:s");

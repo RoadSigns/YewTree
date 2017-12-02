@@ -12,7 +12,7 @@
 
         public function addProduct();
 
-        public function updateProduct();
+        public function updateProduct($id);
 
         public function enableProduct($id);
         public function disableProduct($id);
