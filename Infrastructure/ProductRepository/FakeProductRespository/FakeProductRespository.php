@@ -47,7 +47,7 @@
             // TODO: Implement addProduct() method.
         }
 
-        public function updateProduct()
+        public function updateProduct($id)
         {
             // TODO: Implement updateProduct() method.
         }

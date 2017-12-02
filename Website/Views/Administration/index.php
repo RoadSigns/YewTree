@@ -36,7 +36,7 @@
                                             <td><?= $product->price?></td>
                                             <td><?= $product->postedDate?></td>
                                             <td><?= $product->uriName?></td>
-                                            <td><a href='<?= BASEPATH ?>/admin/edit/<?= $product->uriName ?>/'><button class="btn btn-warning">Edit</button></a></td>
+                                            <td><a href='<?= BASEPATH ?>/admin/edit/<?= $product->id ?>/'><button class="btn btn-warning">Edit</button></a></td>
                                             <?php
                                                 echo ($product->disabled)
                                                     ? "<td><a href='". BASEPATH ."/admin/enable/{$product->id}/'><button class='btn btn-success'>Enable</button></a></td>"

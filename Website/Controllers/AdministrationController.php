@@ -37,9 +37,9 @@
             exit();
         }
 
-        public function getEdit($uriName)
+        public function getEdit($id)
         {
-            $product = $this->productRepository->getProductByName($uriName);
+            $product = $this->productRepository->getProductById($id);
             ($product)
                 ? require_once('Website/Views/Administration/edit.php')
                 : header('Location: ' . BASEPATH . '/admin/');
@@ -48,8 +48,10 @@
 
         public function postEdit($id)
         {
-            $this->productRepository->updateProduct();
+            $this->productRepository->updateProduct($id);
 
+            header('Location: '. BASEPATH . '/admin/');
+            exit();
         }
 
         public function getDisable($id)

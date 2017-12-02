@@ -53,7 +53,7 @@
                     $tmp->postCreate();
                 });
 
-                $this->router->map('GET', '/admin/edit/[:uriName]/', function($uriName){
+                $this->router->map('GET', '/admin/edit/[i:id]/', function($uriName){
                     $tmpPdo = new MyPDO();
                     $tmp    = new AdministrationController(new MyPdoProductRepository($tmpPdo));
                     $tmp->getEdit($uriName);
