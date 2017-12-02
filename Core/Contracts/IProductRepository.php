@@ -14,5 +14,6 @@
 
         public function updateProduct();
 
+        public function enableProduct($id);
         public function disableProduct($id);
     }

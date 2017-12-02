@@ -52,13 +52,20 @@
 
         }
 
-        public function getDisable()
+        public function getDisable($id)
         {
-            require_once('Website/Views/Administration/disable.php');
+            $this->productRepository->disableProduct($id);
+
+            header('Location: '. BASEPATH . '/admin/');
+            exit();
         }
 
-        public function postDisable()
+        public function getEnable($id)
         {
+            $this->productRepository->enableProduct($id);
 
+            header('Location: '. BASEPATH . '/admin/');
+            exit();
         }
+
     }

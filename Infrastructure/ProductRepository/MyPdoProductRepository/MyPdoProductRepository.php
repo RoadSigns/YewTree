@@ -19,6 +19,18 @@
                 return $this->link->query($sql)->fetchAll();
             }
 
+            public function getAllNonDisabledProducts()
+            {
+                $sql = "SELECT * FROM products WHERE disabled = 0";
+                return $this->link->query($sql)->fetchAll();
+            }
+
+            public function getAllDisabledProducts()
+            {
+                $sql = "SELECT * FROM products WHERE disabled = 1";
+                return $this->link->query($sql)->fetchAll();
+            }
+
             public function getProductById($id)
             {
                 $sql = " SELECT * FROM  products WHERE id = :id";
@@ -37,35 +49,83 @@
                 // TODO: Implement getProductsByCategory() method.
             }
 
+            /**
+             * @return bool
+             */
             public function addProduct()
             {
                 $table = "products";
 
-                $name       = filter_input(INPUT_POST, 'name', FILTER_SANITIZE_STRING);
-                $price      = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
-                $postedDate = date("Y-m-d H:i:s");
-                $uriName    = Urlify::urlify($name);
-                $thumbnail  = $name . '.jpg';
+                $name        = filter_input(INPUT_POST, 'name',  FILTER_SANITIZE_STRING);
+                $price       = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                $postedDate  = date("Y-m-d H:i:s");
+                $lastUpdated = date("Y-m-d H:i:s");
+                $uriName     = Urlify::urlify($name);
+                $thumbnail   = $name . '.jpg';
 
                 $columns = array (
-                    "id"         => "",
-                    "name"       => $name,
-                    "price"      => $price,
-                    "postedDate" => $postedDate,
-                    "thumbnail"  => $thumbnail,
-                    "uriName"    => $uriName
+                    "id"          => "",
+                    "name"        => $name,
+                    "price"       => $price,
+                    "postedDate"  => $postedDate,
+                    "lastUpdated" => $lastUpdated,
+                    "thumbnail"   => $thumbnail,
+                    "uriName"     => $uriName
                 );
                 return $this->link->insert($table, $columns);
             }
 
+            /**
+             * @return bool
+             */
             public function updateProduct()
             {
+                $table = "products";
 
+                $id          = filter_input(INPUT_POST, 'id',    FILTER_SANITIZE_NUMBER_INT);
+                $name        = filter_input(INPUT_POST, 'name',  FILTER_SANITIZE_STRING);
+                $price       = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                $lastUpdated = date("Y-m-d H:i:s");
+                $uriName     = Urlify::urlify($name);
+                $thumbnail   = $name . '.jpg';
+
+                $columns = array (
+                    "name"        => $name,
+                    "price"       => $price,
+                    "lastUpdated" => $lastUpdated,
+                    "uriName"     => $uriName,
+                    "thumbnail"   => $thumbnail
+                );
+
+                $where = "id = '$id'";
+
+                return $this->link->update($table, $columns, $where);
             }
 
             public function disableProduct($id)
             {
-                // TODO: Implement disableProduct() method.
+                $table = "products";
+
+                $columns = array (
+                    "disable" => 1
+                );
+
+                $where = "id = '$id'";
+
+                return $this->link->update($table, $columns, $where);
+            }
+
+            public function enableProduct($id)
+            {
+                $table = "products";
+
+                $columns = array (
+                    "disable" => 0
+                );
+
+                $where = "id = '$id'";
+
+                return $this->link->update($table, $columns, $where);
             }
 
 
