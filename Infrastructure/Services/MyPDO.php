@@ -1,6 +1,6 @@
 <?php
 
-    namespace YewTree\Infrastructure\ProductRepository\MyPdoProductRepository;
+    namespace YewTree\Infrastructure\Services;
     use PDO;
 
     /**

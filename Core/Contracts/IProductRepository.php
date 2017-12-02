@@ -8,10 +8,8 @@
         public function getProductById($id);
         public function getProductByName($name);
         public function getAllProducts();
-        public function getProductsByCategory($category);
 
         public function addProduct();
-
         public function updateProduct($id);
 
         public function enableProduct($id);

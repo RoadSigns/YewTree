@@ -3,6 +3,8 @@
     namespace YewTree\Infrastructure\ProductRepository\MyPdoProductRepository;
 
         use YewTree\Core\Contracts\IProductRepository;
+        use YewTree\Infrastructure\Services\MyPDO;
+        use YewTree\Website\Controllers\CategoryController;
         use YewTree\Website\Helpers\Urlify;
 
         class MyPdoProductRepository implements IProductRepository
@@ -43,11 +45,6 @@
                 return $this->link->query($sql)->bind(':uriName', $uriName)->fetchRow();
             }
 
-
-            public function getProductsByCategory($category)
-            {
-                // TODO: Implement getProductsByCategory() method.
-            }
 
             /**
              * @return bool
@@ -105,8 +102,11 @@
             {
                 $table = "products";
 
+                $lastUpdated = date("Y-m-d H:i:s");
+
                 $columns = array (
-                    "disabled" => 1
+                    "lastUpdated" => $lastUpdated,
+                    "disabled"    => 1
                 );
 
                 $where = "id = '$id'";
@@ -118,8 +118,11 @@
             {
                 $table = "products";
 
+                $lastUpdated = date("Y-m-d H:i:s");
+
                 $columns = array (
-                    "disabled" => 0
+                    "lastUpdated" => $lastUpdated,
+                    "disabled"    => 0
                 );
 
                 $where = "id = '$id'";
