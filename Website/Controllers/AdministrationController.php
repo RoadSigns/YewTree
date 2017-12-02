@@ -2,13 +2,18 @@
 
     namespace YewTree\Website\Controllers;
 
+    use YewTree\Core\Contracts\ICategoryRepository;
     use YewTree\Core\Contracts\IProductRepository;
 
     class AdministrationController
     {
-        public function __construct(IProductRepository $productRepository)
+        private $productRepository;
+        private $categoryRepository;
+
+        public function __construct(IProductRepository $productRepository, ICategoryRepository $categoryRepository)
         {
-            $this->productRepository = $productRepository;
+            $this->productRepository  = $productRepository;
+            $this->categoryRepository = $categoryRepository;
         }
 
         public function showView()
