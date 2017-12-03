@@ -1,4 +1,6 @@
 <?php
+    dumpr($products);
+
     echo "<a href='" . BASEPATH . "/admin/product/create/'><button class='btn btn-success'>Create New Product</button></a>";
     echo "<a href='" . BASEPATH . "/admin/category/create/'><button class='btn btn-success'>Create New Category</button></a>";
 ?>

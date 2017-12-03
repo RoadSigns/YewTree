@@ -7,6 +7,8 @@
         use YewTree\Website\Controllers\CategoryController;
         use YewTree\Website\Helpers\Urlify;
 
+        use YewTree\Core\Model\Product;
+
         class MyPdoProductRepository implements IProductRepository
         {
             private $link;
@@ -18,7 +20,16 @@
             public function getAllProducts()
             {
                 $sql = "SELECT * FROM products";
-                return $this->link->query($sql)->fetchAll();
+
+                $result = $this->link->query($sql)->fetchAll();
+
+                foreach ($result as $product) {
+                    $categories = $this->getProductsCategories($product->id);
+                    $products[] = new Product($product, $categories);
+                }
+
+                return $products;
+
             }
 
             public function getAllNonDisabledProducts()
@@ -142,6 +153,18 @@
 
                 return $this->link->update($table, $columns, $where);
             }
+
+            private function getProductsCategories($productId)
+            {
+                $sql = "SELECT products_categories.categoryID
+                        FROM  `products` 
+                        LEFT JOIN  `products_categories` ON products.id = products_categories.productID
+                        WHERE products.id =13
+                        LIMIT 0 , 30";
+
+                return $this->link->query($sql)->fetchAll();
+            }
+
 
             private function updateProductsCategories($productId)
             {

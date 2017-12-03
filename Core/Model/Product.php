@@ -8,18 +8,35 @@
         public $id;
         public $name;
         public $price;
-        public $postedDate;
         public $thumbnail;
+        public $uriName;
 
-        public $productImages;
+        public $postedDate;
+        public $updatedDate;
 
-        public function __construct($id, $name, $price, $postedDate, $thumbnail)
+        public $categories;
+
+        public function __construct($product, $categories)
         {
-            $this->id = $id;
-            $this->name = $name;
-            $this->price = $price;
-            $this->postedDate = $postedDate;
-            $this->thumbnail = $thumbnail;
+            $this->id         = $product->id;
+            $this->name       = $product->name;
+            $this->price      = $product->price;
+            $this->thumbnail  = $product->thumbnail;
+            $this->uriName    = $product->uriName;
 
+            $this->postedDate  = $product->postedDate;
+            $this->lastUpdated = $product->lastUpdated;
+
+            $this->disabled = $product->disabled;
+
+            $this->categories = array();
+            $this->_buildCategories($categories);
+        }
+
+        private function _buildCategories($categories)
+        {
+            foreach ($categories as $category) {
+                $this->categories[] = $category->categoryID;
+            }
         }
     }
