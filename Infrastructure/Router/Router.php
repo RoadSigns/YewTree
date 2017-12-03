@@ -25,6 +25,7 @@
 
             private $myPdo;
 
+            private $homeController;
             private $productController;
             private $categoryController;
 
@@ -45,12 +46,15 @@
             public function generateRoutes()
             {
                 $this->router->map('GET', '/', function(){
-                    $tmp = new HomeController(new FakeProductRespository());
-                    $tmp->showView();
+                    $this->homeController->showView();
                 });
 
                 $this->router->map('GET', '/admin/', function(){
                     $this->administrationController->showView();
+                });
+
+                $this->router->map('GET', '/Website/Styles/[:directory][:filename]', function($directory, $filename){
+                   return require ("Website/Styles/$directory/$filename");
                 });
 
 

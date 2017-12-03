@@ -35,7 +35,15 @@
             public function getAllNonDisabledProducts()
             {
                 $sql = "SELECT * FROM products WHERE disabled = 0";
-                return $this->link->query($sql)->fetchAll();
+
+                $result = $this->link->query($sql)->fetchAll();
+
+                foreach ($result as $product) {
+                    $categories = $this->getProductsCategories($product->id);
+                    $products[] = new Product($product, $categories);
+                }
+
+                return $products;
             }
 
             public function getAllDisabledProducts()
@@ -46,14 +54,20 @@
 
             public function getProductById($id)
             {
-                $sql = " SELECT * FROM  products WHERE id = :id";
-                return $this->link->query($sql)->bind(':id', $id)->fetchRow();
+                $sql        = " SELECT * FROM  products WHERE id = :id";
+                $result     = $this->link->query($sql)->bind(':id', $id)->fetchRow();
+                $categories = $this->getProductsCategories($result->id);
+
+                return new Product($result, $categories);
             }
 
             public function getProductByName($uriName)
             {
                 $sql = " SELECT * FROM products WHERE uriName = :uriName";
-                return $this->link->query($sql)->bind(':uriName', $uriName)->fetchRow();
+                $result = $this->link->query($sql)->bind(':uriName', $uriName)->fetchRow();
+
+                $categories = $this->getProductsCategories($result->id);
+                return new Product($result, $categories);
             }
 
 
@@ -159,12 +173,46 @@
                 $sql = "SELECT products_categories.categoryID
                         FROM  `products` 
                         LEFT JOIN  `products_categories` ON products.id = products_categories.productID
-                        WHERE products.id =13
-                        LIMIT 0 , 30";
+                        WHERE products.id = ". $productId;
 
                 return $this->link->query($sql)->fetchAll();
             }
 
+            public function getLastUpdated($limit = 4)
+            {
+                $sql = "SELECT * 
+                        FROM  `products` 
+                        ORDER BY  `products`.`lastUpdated` DESC 
+                        LIMIT 0 , $limit";
+
+                $result = $this->link->query($sql)->fetchAll();
+
+                foreach ($result as $product) {
+                    $categories = $this->getProductsCategories($product->id);
+                    $products[] = new Product($product, $categories);
+                }
+
+                return $products;
+            }
+
+
+            public function getProductsByCategory($category)
+            {
+                $sql = "SELECT products.id, products.name, products.price, products.description, products.lastUpdated, products.postedDate, products.thumbnail, products.uriName, products.disabled
+                        FROM `products`
+                        LEFT JOIN `products_categories` ON products.id = products_categories.productID
+                        LEFT JOIN `categories` ON categories.id = products_categories.categoryID
+                        WHERE categories.category = '$category'";
+
+                $result = $this->link->query($sql)->fetchAll();
+
+                foreach ($result as $product) {
+                    $categories = $this->getProductsCategories($product->id);
+                    $products[] = new Product($product, $categories);
+                }
+
+                return $products;
+            }
 
             private function updateProductsCategories($productId)
             {

@@ -2,25 +2,35 @@
 
     namespace YewTree\Core\Model;
 
+    use DateTime;
 
+    /**
+     * Class Product
+     * @package YewTree\Core\Model
+     */
     class Product
     {
         public $id;
         public $name;
         public $price;
+        public $description;
         public $thumbnail;
         public $uriName;
 
         public $postedDate;
-        public $updatedDate;
+        public $lastUpdated;
+
+        public $disabled;
 
         public $categories;
 
         public function __construct($product, $categories)
         {
-            $this->id         = $product->id;
-            $this->name       = $product->name;
-            $this->price      = $product->price;
+            $this->id          = $product->id;
+            $this->name        = $product->name;
+            $this->price       = $product->price;
+            $this->description = $product->description;
+
             $this->thumbnail  = $product->thumbnail;
             $this->uriName    = $product->uriName;
 
@@ -36,7 +46,16 @@
         private function _buildCategories($categories)
         {
             foreach ($categories as $category) {
-                $this->categories[] = $category->categoryID;
+                if (!$category->categoryID == null) {
+                    $this->categories[] = $category->categoryID;
+                }
             }
+        }
+
+        public function previewDescription($length = 30)
+        {
+            $preview  = substr($this->description, 0, $length);
+            $preview .= "...";
+            return $preview;
         }
     }

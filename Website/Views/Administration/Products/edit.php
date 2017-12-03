@@ -6,9 +6,7 @@
         header('Location' . BASEPATH . '/admin/');
     }
 
-    if (isset($_POST)) {
-        dumpr($_POST);
-    }
+    dumpr($product);
 ?>
 <body>
 <div id="page-wrapper">
@@ -42,7 +40,12 @@
                                     <?php foreach ($categories as $category) { ?>
                                     <div class="checkbox">
                                         <label>
-                                            <input name="categories[<?= $category->id ?>]" type="checkbox" value="<?= $category->id ?>"><?= $category->category ?>
+                                            <input
+                                                    name="categories[<?= $category->id ?>]"
+                                                    type="checkbox"
+                                                    value="<?= $category->id ?>"
+                                                    <?= (in_array($category->id, $product->categories)) ? "checked" : "" ?>
+                                            > <?= $category->category ?>
                                         </label>
                                     </div>
                                     <?php } ?>
