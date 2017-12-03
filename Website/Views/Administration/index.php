@@ -70,7 +70,7 @@
                                     <tr>
                                         <td><?= $category->id ?></td>
                                         <td><?= $category->category ?></td>
-                                        <td>999</td>
+                                        <td><?= $category->count ?></td>
                                         <td><a href='<?= BASEPATH ?>/admin/category/edit/<?= $category->id ?>/'><button class="btn btn-warning">Edit</button></a></td>
                                     </tr>
                                 <?php }

@@ -69,7 +69,17 @@
                     "thumbnail"   => $thumbnail,
                     "uriName"     => $uriName
                 );
-                return $this->link->insert($table, $columns);
+
+                $result = $this->link->insert($table, $columns);
+
+                if (!$result) {
+                    return false;
+                }
+
+                $productID = $this->link->insertID();
+                $this->updateProductsCategories($productID);
+
+                return true;
             }
 
             /**
@@ -95,7 +105,10 @@
 
                 $where = "id = '$id'";
 
-                return $this->link->update($table, $columns, $where);
+                $productResult  = $this->link->update($table, $columns, $where);
+                $categoryResult = $this->updateProductsCategories($id);
+
+                return ($productResult && $categoryResult);
             }
 
             public function disableProduct($id)
@@ -128,6 +141,32 @@
                 $where = "id = '$id'";
 
                 return $this->link->update($table, $columns, $where);
+            }
+
+            private function updateProductsCategories($productId)
+            {
+                $table = "products_categories";
+
+                $this->deleteProductCategories($productId, $table);
+
+                $categories = $_POST['categories'];
+
+                foreach ($categories as $category) {
+                    $columns = array (
+                        "id" => "",
+                        "productID"  => $productId,
+                        "categoryID" => $category
+                    );
+
+                    $this->link->insert($table, $columns);
+                }
+
+            }
+
+            private function deleteProductCategories($productId, $table)
+            {
+                $where  = "productID = $productId";
+                return $this->link->delete($table,$where);
             }
 
 

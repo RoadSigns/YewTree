@@ -20,6 +20,7 @@
 
         public function getCreate()
         {
+            $categories = $this->categoryRepository->getAllCategories();
             require_once('Website/Views/Administration/Products/create.php');
         }
 
@@ -34,8 +35,10 @@
 
         public function getEdit($id)
         {
-            $product = $this->productRepository->getProductById($id);
-            ($product)
+            $product    = $this->productRepository->getProductById($id);
+            $categories = $this->categoryRepository->getAllCategories();
+
+            ($product && $categories)
                 ? require_once('Website/Views/Administration/Products/edit.php')
                 : header('Location: ' . BASEPATH . '/admin/products/');
 

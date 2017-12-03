@@ -1,9 +1,13 @@
 <?php
-    if (isset($product)) {
-        $productName = (isset($_GET['name'])) ? $_GET['name'] : $product->name;
+    if (isset($product) && isset($categories)) {
+        $productName = (isset($_GET['name']))  ? $_GET['name']  : $product->name;
         $price       = (isset($_GET['price'])) ? $_GET['price'] : $product->price;
     } else {
-        header('Location' . BASEPATH . './admin/');
+        header('Location' . BASEPATH . '/admin/');
+    }
+
+    if (isset($_POST)) {
+        dumpr($_POST);
     }
 ?>
 <body>
@@ -32,6 +36,16 @@
                                         <div class="input-group-addon">£</div>
                                         <input name='price' type="text" class="form-control" id="price" placeholder="Amount" value="<?= $price ?>" required>
                                     </div>
+                                </div>
+                                <div class="form-group">
+                                    <label>Categories</label>
+                                    <?php foreach ($categories as $category) { ?>
+                                    <div class="checkbox">
+                                        <label>
+                                            <input name="categories[<?= $category->id ?>]" type="checkbox" value="<?= $category->id ?>"><?= $category->category ?>
+                                        </label>
+                                    </div>
+                                    <?php } ?>
                                 </div>
                                 <input value="<?= $product->id ?>" name="id" type="hidden">
                                 <button type="submit" class="btn btn-default">Submit Button</button>

@@ -13,7 +13,7 @@
 
         public $productImages;
 
-        public function __construct($id, $name, $price, $postedDate, $thumbnail, $productImages)
+        public function __construct($id, $name, $price, $postedDate, $thumbnail)
         {
             $this->id = $id;
             $this->name = $name;
@@ -21,9 +21,5 @@
             $this->postedDate = $postedDate;
             $this->thumbnail = $thumbnail;
 
-            $this->productImages = array();
-            $this->productImages = $productImages;
         }
-
-
     }

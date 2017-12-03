@@ -17,7 +17,10 @@
 
         public function getAllCategories()
         {
-            $sql = "SELECT * FROM categories";
+            $sql = "SELECT categories.id, categories.category, count(products_categories.productID) as count FROM `categories`
+                    LEFT JOIN `products_categories` ON categories.id = products_categories.categoryID
+                    GROUP BY categories.id";
+
             return $this->link->query($sql)->fetchAll();
         }
 
@@ -55,10 +58,12 @@
 
             $category    = filter_input(INPUT_POST, 'category',  FILTER_SANITIZE_STRING);
             $lastUpdated = date("Y-m-d H:i:s");
+            $uriName     = Urlify::urlify($category);
 
             $columns = array (
                 "lastUpdated" => $lastUpdated,
-                "category"    => $category
+                "category"    => $category,
+                "uriName"     => $uriName
             );
 
             $where = "id = '$id'";

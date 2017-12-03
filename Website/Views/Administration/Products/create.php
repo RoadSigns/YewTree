@@ -1,5 +1,7 @@
 <?php
-    echo $_SERVER['REQUEST_URI'];
+    if (!isset($categories)) {
+        header('Location' . BASEPATH . '/admin/');
+    }
 ?>
 
 <body>
@@ -28,6 +30,16 @@
                                             <div class="input-group-addon">£</div>
                                             <input name='price' type="text" class="form-control" id="exampleInputAmount" placeholder="Amount" required>
                                         </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label>Categories</label>
+                                        <?php foreach ($categories as $category) { ?>
+                                            <div class="checkbox">
+                                                <label>
+                                                    <input name="categories[<?= $category->id ?>]" type="checkbox" value="<?= $category->id ?>"><?= $category->category ?>
+                                                </label>
+                                            </div>
+                                        <?php } ?>
                                     </div>
                                     <button type="submit" class="btn btn-default">Submit Button</button>
                                 </form>
