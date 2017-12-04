@@ -1,5 +1,4 @@
 <?php
-    echo $_SERVER['REQUEST_URI'];
 ?>
 
 <body>
@@ -22,7 +21,7 @@
                                     <label class="sr-only">Category Name</label>
                                     <input name='category' class="form-control" type="text" placeholder="Category Name" required>
                                 </div>
-                                <button type="submit" class="btn btn-default">Submit Button</button>
+                                <button type="submit" class="btn orange-gradient">Submit Button</button>
                             </form>
                         </div>
                     </div>

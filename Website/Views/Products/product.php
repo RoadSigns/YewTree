@@ -20,10 +20,10 @@
         <!-- /.col-lg-9 -->
 
         <div class="col-lg-3">
-            <h1 class="my-4"><?= $product->name?> Categories</h1>
+            <h3 class="my-4"><?= $product->name?> Categories</h3>
             <div class="list-group">
                 <?php foreach($product->categories as $category) { ?>
-                <a href="<?= BASEPATH ?>/categories/<?= $category ?>" class="list-group-item"><?= $category ?></a>
+                <a href="<?= BASEPATH ?>/categories/<?= $category ?>" class="orange-text list-group-item"><?= $category ?></a>
                 <?php } ?>
             </div>
         </div>

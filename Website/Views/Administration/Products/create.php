@@ -33,7 +33,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="md-form">
-                                            <textarea type="text" id="description" class="md-textarea" name="description"><?= $description ?></textarea>
+                                            <textarea type="text" id="description" class="md-textarea" name="description"></textarea>
                                             <label for="description">Description</label>
                                         </div>
                                     </div>

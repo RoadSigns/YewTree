@@ -9,7 +9,7 @@
                 <h1 class="my-4">Categories</h1>
                 <div class="list-group">
                     <?php foreach($categories as $category) { ?>
-                        <a href="<?= BASEPATH ?>/categories/<?= $category->category ?>" class="list-group-item"><?= $category->category ?></a>
+                        <a href="<?= BASEPATH ?>/categories/<?= $category->category ?>" class="orange-text list-group-item"><?= $category->category ?></a>
                     <?php } ?>
                 </div>
             </div>
