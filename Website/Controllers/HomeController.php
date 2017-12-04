@@ -12,7 +12,9 @@ class HomeController
 
     public function showView()
     {
-        $products = $this->productRepository->getAllProducts();
+        $lastUpdatedProducts = $this->productRepository->getLastUpdated();
+        $electronicProducts  = $this->productRepository->getProductsByCategory('Electronics');
+        $fruitProducts       = $this->productRepository->getProductsByCategory('Fruit');
         require_once ('Website/Views/home.php');
     }
 

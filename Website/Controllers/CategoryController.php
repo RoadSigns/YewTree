@@ -1,20 +1,43 @@
 <?php
 
-namespace YewTree\Website\Controllers;
+    namespace YewTree\Website\Controllers;
 
-use YewTree\Core\Contracts\IProductRepository;
+    use YewTree\Core\Contracts\ICategoryRepository;
+    use YewTree\Core\Contracts\IProductRepository;
 
-class CategoryController
-{
-    public function __construct(IProductRepository $productRepository)
+    class CategoryController
     {
-        $this->productRepository = $productRepository;
-    }
+        private $productRepository;
+        private $categoryRepository;
 
-    public function showView()
-    {
-        $products = $this->productRepository->getAllProducts();
+        /**
+         * CategoryController constructor.
+         * @param IProductRepository  $productRepository
+         * @param ICategoryRepository $categoryRepository
+         */
+        public function __construct(
+            IProductRepository $productRepository,
+            ICategoryRepository $categoryRepository
+        )
+        {
+            $this->productRepository  = $productRepository;
+            $this->categoryRepository = $categoryRepository;
+        }
 
-        dumpr($products);
+
+        public function showView($category)
+        {
+            $categories = $this->categoryRepository->getAllCategories();
+            $products = $this->productRepository->getProductsByCategory($category);
+
+            require('Website/Views/Categories/category.php');
+
+        }
+
+        public function showList()
+        {
+            $categories = $this->categoryRepository->getAllCategories();
+            require('Website/Views/Categories/index.php');
+
+        }
     }
-}

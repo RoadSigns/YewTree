@@ -21,8 +21,8 @@
          */
         private $targetPath = '/tmp',
             $maxSizeMb = 999,
-            $allow = false,         // array of allowed file exrensions
-            $deny = false;         // array of denied file exrensions
+            $allow     = false,         // array of allowed file exrensions
+            $deny      = false;         // array of denied file exrensions
 
         /**
          *

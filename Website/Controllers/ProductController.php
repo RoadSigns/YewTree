@@ -1,26 +1,36 @@
 <?php
 namespace YewTree\Website\Controllers;
 
+use YewTree\Core\Contracts\ICategoryRepository;
 use YewTree\Core\Contracts\IProductRepository;
 
 
 class ProductController
 {
-    public function __construct(IProductRepository $productRepository)
+    private $productRepository;
+    private $categoryRepository;
+
+    public function __construct(
+        IProductRepository  $productRepository,
+        ICategoryRepository $categoryRepository
+    )
     {
-        $this->productRepository = $productRepository;
+        $this->productRepository  = $productRepository;
+        $this->categoryRepository = $categoryRepository;
     }
 
-    public function showView($id = '')
+    public function showView($uriName)
     {
-        ($id == '')
-         ? $products = $this->productRepository->getAllProducts()
-         : $products = $this->productRepository->getProductById($id);
+        $product = $this->productRepository->getProductByName($uriName);
+        ($product)
+            ? require_once ('Website/Views/Products/product.php')
+            : header('Location: '. BASEPATH. '/products/');
     }
 
     public function showList()
     {
-        $products = $this->productRepository->getAllProducts();
-        require_once('Website/Views/Products/list.php');
+        $products   = $this->productRepository->getAllNonDisabledProducts();
+        $categories = $this->categoryRepository->getAllCategories();
+        require_once('Website/Views/Products/index.php');
     }
 }

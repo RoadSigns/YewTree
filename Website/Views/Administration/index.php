@@ -1,14 +1,15 @@
 <?php
-    echo "<a href='" . BASEPATH . "/admin/product/create/'><button class='btn btn-success'>Create New Product</button></a>";
-    echo "<a href='" . BASEPATH . "/admin/category/create/'><button class='btn btn-success'>Create New Category</button></a>";
+
 ?>
-<hr/>
+
+<a href='<?= BASEPATH ?>/admin/product/create/'><button class='btn btn-success'>Create New Product</button></a>
+<a href='<?= BASEPATH ?>/admin/category/create/'><button class='btn btn-success'>Create New Category</button></a>
 
 <div class="row">
     <div class="col-lg-12">
         <div class="panel panel-default">
             <div class="panel-heading">
-                Striped Rows
+                Products
             </div>
             <!-- /.panel-heading -->
             <div class="panel-body">
@@ -32,7 +33,7 @@
                                     foreach ($products as $product) { ?>
                                         <tr>
                                             <td><?= $product->id ?></td>
-                                            <td><?= $product->thumbnail ?></td>
+                                            <td><img class="admin-dashboard" src="http://learn.cf.ac.uk/webstudent/sem6zl/yewtree/Website/Images/<?=$product->thumbnail?>" alt=""></td>
                                             <td><?= $product->name?></td>
                                             <td><?= $product->price?></td>
                                             <td><?= $product->lastUpdated?></td>
@@ -53,6 +54,9 @@
                 <!-- /.table-responsive -->
             </div>
             <div class="panel-body">
+                <div class="panel-heading">
+                    Categories
+                </div>
                 <div class="table-responsive">
                     <table class="table table-striped">
                         <thead>
@@ -70,7 +74,7 @@
                                     <tr>
                                         <td><?= $category->id ?></td>
                                         <td><?= $category->category ?></td>
-                                        <td>999</td>
+                                        <td><?= $category->count ?></td>
                                         <td><a href='<?= BASEPATH ?>/admin/category/edit/<?= $category->id ?>/'><button class="btn btn-warning">Edit</button></a></td>
                                     </tr>
                                 <?php }
