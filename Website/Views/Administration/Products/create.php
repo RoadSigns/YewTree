@@ -32,6 +32,18 @@
                                         </div>
                                     </div>
                                     <div class="form-group">
+                                        <div class="md-form">
+                                            <textarea type="text" id="description" class="md-textarea" name="description"><?= $description ?></textarea>
+                                            <label for="description">Description</label>
+                                        </div>
+                                    </div>
+                                    <div class="file-field">
+                                        <div class="btn orange-gradient btn-sm">
+                                            <label for="thumbnail">Upload Thumbnail</label>
+                                            <input type="file" name="thumbnail" id="thumbnail">
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
                                         <label>Categories</label>
                                         <?php foreach ($categories as $category) { ?>
                                             <div class="checkbox">
@@ -41,7 +53,7 @@
                                             </div>
                                         <?php } ?>
                                     </div>
-                                    <button type="submit" class="btn btn-default">Submit Button</button>
+                                    <button type="submit" class="btn orange-gradient">Submit Button</button>
                                 </form>
                             </div>
                         </div>

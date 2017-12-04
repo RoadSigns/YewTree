@@ -3,11 +3,13 @@
     namespace YewTree\Infrastructure\ProductRepository\MyPdoProductRepository;
 
         use YewTree\Core\Contracts\IProductRepository;
+        use YewTree\Core\Services\FileUpload;
         use YewTree\Infrastructure\Services\MyPDO;
         use YewTree\Website\Controllers\CategoryController;
         use YewTree\Website\Helpers\Urlify;
 
         use YewTree\Core\Model\Product;
+        use YewTree\Website\Services\FormValidator;
 
         class MyPdoProductRepository implements IProductRepository
         {
@@ -63,11 +65,15 @@
 
             public function getProductByName($uriName)
             {
-                $sql = " SELECT * FROM products WHERE uriName = :uriName";
+                $sql = " SELECT * FROM products WHERE uriName = :uriName AND disabled = 0";
                 $result = $this->link->query($sql)->bind(':uriName', $uriName)->fetchRow();
 
-                $categories = $this->getProductsCategories($result->id);
-                return new Product($result, $categories);
+                if ($result) {
+                    $categories = $this->getProductsCategories($result->id);
+                    return new Product($result, $categories);
+                } else {
+                    return false;
+                }
             }
 
 
@@ -78,22 +84,32 @@
             {
                 $table = "products";
 
-                $name        = filter_input(INPUT_POST, 'name',  FILTER_SANITIZE_STRING);
-                $price       = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                $this->validateForms();
+                $this->formVal->validate('name')->clean();
+                $this->formVal->validate('price')->clean();
+                $this->formVal->validate('description')->clean();
+
+                $fields = $this->formVal->getFields();
+
                 $postedDate  = date("Y-m-d H:i:s");
                 $lastUpdated = date("Y-m-d H:i:s");
-                $uriName     = Urlify::urlify($name);
-                $thumbnail   = $name . '.jpg';
+                $uriName     = Urlify::urlify($fields['name']);
 
                 $columns = array (
                     "id"          => "",
-                    "name"        => $name,
-                    "price"       => $price,
+                    "name"        => $fields['name'],
+                    "price"       => $fields['price'],
+                    "description" => $fields['description'],
                     "postedDate"  => $postedDate,
                     "lastUpdated" => $lastUpdated,
-                    "thumbnail"   => $thumbnail,
                     "uriName"     => $uriName
                 );
+
+                if ($_FILES['thumbnail']['name'] != '') {
+                    $thumbnailInformation = $this->uploadImage();
+                    $thumbnail = $thumbnailInformation['filename'];
+                    $columns["thumbnail"] = $thumbnail;
+                }
 
                 $result = $this->link->insert($table, $columns);
 
@@ -114,19 +130,30 @@
             {
                 $table = "products";
 
-                $name        = filter_input(INPUT_POST, 'name',  FILTER_SANITIZE_STRING);
-                $price       = filter_input(INPUT_POST, 'price', FILTER_SANITIZE_NUMBER_FLOAT, FILTER_FLAG_ALLOW_FRACTION);
+                $this->validateForms();
+                $this->formVal->validate('name')->clean();
+                $this->formVal->validate('price')->clean();
+                $this->formVal->validate('description')->clean();
+
+                $fields = $this->formVal->getFields();
+
                 $lastUpdated = date("Y-m-d H:i:s");
-                $uriName     = Urlify::urlify($name);
-                $thumbnail   = $name . '.jpg';
+                $uriName     = Urlify::urlify($fields['name']);
 
                 $columns = array (
-                    "name"        => $name,
-                    "price"       => $price,
+                    "name"        => $fields['name'],
+                    "price"       => $fields['price'],
+                    "description" => $fields['description'],
                     "lastUpdated" => $lastUpdated,
-                    "uriName"     => $uriName,
-                    "thumbnail"   => $thumbnail
+                    "uriName"     => $uriName
                 );
+
+
+                if ($_FILES['thumbnail']['name'] != '') {
+                    $thumbnailInformation = $this->uploadImage();
+                    $thumbnail = $thumbnailInformation['filename'];
+                    $columns["thumbnail"] = $thumbnail;
+                }
 
                 $where = "id = '$id'";
 
@@ -170,10 +197,11 @@
 
             private function getProductsCategories($productId)
             {
-                $sql = "SELECT products_categories.categoryID
+                $sql = "SELECT categories.category
                         FROM  `products` 
                         LEFT JOIN  `products_categories` ON products.id = products_categories.productID
-                        WHERE products.id = ". $productId;
+                        LEFT JOIN `categories` ON categories.id = products_categories.categoryID
+                        WHERE products.id = ". $productId ." AND disabled = 0";
 
                 return $this->link->query($sql)->fetchAll();
             }
@@ -182,6 +210,7 @@
             {
                 $sql = "SELECT * 
                         FROM  `products` 
+                        WHERE disabled = 0
                         ORDER BY  `products`.`lastUpdated` DESC 
                         LIMIT 0 , $limit";
 
@@ -202,16 +231,20 @@
                         FROM `products`
                         LEFT JOIN `products_categories` ON products.id = products_categories.productID
                         LEFT JOIN `categories` ON categories.id = products_categories.categoryID
-                        WHERE categories.category = '$category'";
+                        WHERE categories.category = '$category' AND disabled = 0";
 
                 $result = $this->link->query($sql)->fetchAll();
 
-                foreach ($result as $product) {
-                    $categories = $this->getProductsCategories($product->id);
-                    $products[] = new Product($product, $categories);
-                }
+                if ($result) {
+                    foreach ($result as $product) {
+                        $categories = $this->getProductsCategories($product->id);
+                        $products[] = new Product($product, $categories);
+                    }
 
-                return $products;
+                    return $products;
+                } else {
+                    return false;
+                }
             }
 
             private function updateProductsCategories($productId)
@@ -238,6 +271,24 @@
             {
                 $where  = "productID = $productId";
                 return $this->link->delete($table,$where);
+            }
+
+            public function validateForms()
+            {
+                $this->formVal = new FormValidator();
+                $this->formVal->setMethod('POST');
+                $this->formVal->registerFields();
+            }
+            public function uploadImage()
+            {
+                $fileUpload = new FileUpload('thumbnail');
+                $fileUpload->targetPath = $_SERVER['DOCUMENT_ROOT'] ."/webstudent/sem6zl/yewtree/Website/Images/";
+
+                if ($fileUpload->validate()) {
+                    return $fileUpload->process();
+                } else {
+                    return $fileUpload->getError();
+                }
             }
 
 

@@ -1,5 +1,5 @@
 <!--Navbar-->
-<nav class="navbar navbar-expand-lg navbar-dark indigo">
+<nav class="navbar navbar-expand-lg navbar-dark orange-gradient">
 
     <!-- Navbar brand -->
     <a class="navbar-brand" href="#">YewTree</a>
@@ -17,10 +17,10 @@
                 <a class="nav-link" href="<?= BASEPATH ?>">Home</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Products</a>
+                <a class="nav-link" href="<?=BASEPATH?>/products/">Products</a>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#">Categories</a>
+                <a class="nav-link" href="<?=BASEPATH?>/categories/">Categories</a>
             </li>
         </ul>
         <!-- Links -->

@@ -7,20 +7,20 @@
     <link href="<?= BASEPATH ?>/Website/Styles/css/bootstrap.css" rel="stylesheet">
 
     <!-- Material Design Bootstrap -->
-    <link href="<?= BASEPATH ?>/Website/Styles/css/mdb.min.css" rel="stylesheet">
+    <link href="<?= BASEPATH ?>/Website/Styles/css/mdb.css" rel="stylesheet">
 
     <!-- Your custom styles (optional) -->
     <link href="<?= BASEPATH ?>/Website/Styles/css/style.css" rel="stylesheet">
 
     <!-- JQuery -->
-    <script type="text/javascript" src="<?= BASEPATH ?>/Website/Styles/js/jquery-3.2.1.min.js"></script>
+    <script type="text/javascript" src="<?= BASEPATH ?>/Website/Styles/js/jquery-3.2.1.js"></script>
 
     <!-- Bootstrap tooltips -->
-    <script type="text/javascript" src="<?= BASEPATH ?>/Website/Styles/js/popper.min.js"></script>
+    <script type="text/javascript" src="<?= BASEPATH ?>/Website/Styles/js/popper.js"></script>
 
     <!-- Bootstrap core JavaScript -->
-    <script type="text/javascript" src="<?= BASEPATH ?>/Website/Styles/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="<?= BASEPATH ?>/Website/Styles/js/bootstrap.js"></script>
 
     <!-- MDB core JavaScript -->
-    <script type="text/javascript" src="<?= BASEPATH ?>/Website/Styles/js/mdb.min.js"></script>
+    <script type="text/javascript" src="<?= BASEPATH ?>/Website/Styles/js/mdb.js"></script>
 <?php ?>

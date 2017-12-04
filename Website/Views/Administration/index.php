@@ -33,7 +33,7 @@
                                     foreach ($products as $product) { ?>
                                         <tr>
                                             <td><?= $product->id ?></td>
-                                            <td><?= $product->thumbnail ?></td>
+                                            <td><img class="admin-dashboard" src="http://learn.cf.ac.uk/webstudent/sem6zl/yewtree/Website/Images/<?=$product->thumbnail?>" alt=""></td>
                                             <td><?= $product->name?></td>
                                             <td><?= $product->price?></td>
                                             <td><?= $product->lastUpdated?></td>

@@ -85,27 +85,23 @@
             private function _generateProductsRoutes()
             {
                 $this->router->map('GET', '/products/', function () {
-                    $tmpPdo = new MyPDO();
-                    $tmp = new ProductController(new MyPdoProductRepository($tmpPdo));
-                    $tmp->showView();
+                    $this->productController->showList();
                 });
 
-                $this->router->map('POST', '/products/', function () {
-                    $tmpPdo = new MyPDO();
-                    $tmp = new ProductController(new MyPdoProductRepository($tmpPdo));
-                    $tmp->postView();
-                });
-
-
-                $this->router->map('GET', '/product/[i:id]/', function ($id) {
-                    $tmp = new ProductController(new FakeProductRespository());
-                    $tmp->showView($id);
+                $this->router->map('GET', '/products/[:uriName]/', function ($uriName) {
+                    $this->productController->showView($uriName);
                 });
             }
 
             private function _generateCategoryRoutes()
             {
-                // TODO Create Routes for Categories
+                $this->router->map('GET', '/categories/', function () {
+                    $this->categoryController->showList();
+                });
+
+                $this->router->map('GET', '/categories/[:uriName]/', function ($uriName) {
+                    $this->categoryController->showView($uriName);
+                });
             }
 
             private function _generateAdministrationProductRoutes()
@@ -166,8 +162,9 @@
                 $IProductRepository  = new MyPdoProductRepository($myPdo);
 
                 // Building the Controllers
-                $this->homeController    = new HomeController($IProductRepository);
-                $this->productController = new ProductController($IProductRepository);
+                $this->homeController     = new HomeController($IProductRepository);
+                $this->productController  = new ProductController($IProductRepository, $ICategoryRepository);
+                $this->categoryController = new CategoryController($IProductRepository, $ICategoryRepository);
 
                 // Building Administration Controllers
                 $this->administrationController          = new AdministrationController($IProductRepository, $ICategoryRepository);

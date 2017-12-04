@@ -46,8 +46,8 @@
         private function _buildCategories($categories)
         {
             foreach ($categories as $category) {
-                if (!$category->categoryID == null) {
-                    $this->categories[] = $category->categoryID;
+                if (!$category->category == null) {
+                    $this->categories[] = $category->category;
                 }
             }
         }

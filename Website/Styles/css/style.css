@@ -4,6 +4,40 @@
     width: 100%;
 }
 
-.card-product {
+.card-product,
+.card-category {
     margin: 10px;
+}
+
+.btn.purple-gradient,
+.purple-gradient
+{
+    background: -webkit-linear-gradient(50deg,#ff6ec4,#7873f5);
+    background: linear-gradient(40deg,#ff6ec4,#7873f5);
+}
+
+.blue-gradient,
+.btn.blue-gradient
+{
+    background: -webkit-linear-gradient(50deg,#45cafc,#303f9f);
+    background: linear-gradient(40deg,#45cafc,#303f9f);
+}
+
+.peach-gradient,
+.btn.peach-gradient
+{
+    background: -webkit-linear-gradient(50deg,#FFD86F,#FC6262);
+    background: linear-gradient(40deg,#FFD86F,#FC6262);
+}
+
+.aqua-gradient,
+.btn.aqua-gradient
+{
+    background: -webkit-linear-gradient(50deg,#2096ff,#05ffa3);
+    background: linear-gradient(40deg,#2096ff,#05ffa3);
+}
+
+.admin-dashboard{
+    height: 50px;
+    width: auto;
 }
